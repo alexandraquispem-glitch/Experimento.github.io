@@ -92,7 +92,7 @@ app.post('/api/notes', async (req, res) => {
     if (response.ok) res.json({ success: true });
     else throw new Error('Error al crear nota');
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: err.message }); 
   }
 });
 

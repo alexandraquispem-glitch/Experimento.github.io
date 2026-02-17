@@ -16,7 +16,8 @@ const headers = {
 };
 
 // --- OBTENER NOTAS ---
-app.get('/api/notes', async (req, res) => {
+// Cambiado de '/api/notes' a '/' porque Vercel ya asume la ruta de la carpeta
+app.get('/', async (req, res) => {
   try {
     const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
       method: 'POST',
@@ -43,8 +44,9 @@ app.get('/api/notes', async (req, res) => {
   }
 });
 
-// --- DAR LIKE (NUEVA RUTA) ---
-app.get('/api/notes/like/:id', async (req, res) => {
+// --- DAR LIKE ---
+// Cambiado de '/api/notes/like/:id' a '/like/:id'
+app.get('/like/:id', async (req, res) => {
   try {
     const pageId = req.params.id;
     
@@ -73,7 +75,8 @@ app.get('/api/notes/like/:id', async (req, res) => {
 });
 
 // --- CREAR NOTA ---
-app.post('/api/notes', async (req, res) => {
+// Cambiado de '/api/notes' a '/'
+app.post('/', async (req, res) => {
   try {
     const { asunto, text, color } = req.body;
     const response = await fetch('https://api.notion.com/v1/pages', {

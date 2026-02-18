@@ -15,8 +15,8 @@ const headers = {
   'Notion-Version': '2022-06-28'
 };
 
-// IMPORTANTE: Esta ruta "/" dentro de la carpeta "api" 
-// es la que hace que "experimento-github-io.vercel.app/api" funcione.
+// --- RUTA PRINCIPAL ---
+// Al usar solo '/', responderá directamente en '.../api'
 app.get('/', async (req, res) => {
   try {
     const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
@@ -44,6 +44,7 @@ app.get('/', async (req, res) => {
   }
 });
 
+// --- RUTA DE LIKES ---
 app.get('/like/:id', async (req, res) => {
   try {
     const pageId = req.params.id;
@@ -66,6 +67,7 @@ app.get('/like/:id', async (req, res) => {
   }
 });
 
+// --- RUTA DE CREAR ---
 app.post('/', async (req, res) => {
   try {
     const { asunto, text, color } = req.body;

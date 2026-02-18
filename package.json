@@ -2,6 +2,7 @@
   "name": "safespace-backend",
   "version": "1.0.0",
   "main": "api/index.js",
+  "type": "module",
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",

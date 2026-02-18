@@ -15,8 +15,7 @@ const headers = {
   'Notion-Version': '2022-06-28'
 };
 
-// --- OBTENER NOTAS ---
-// Cambiado de '/api/notes' a '/' porque Vercel ya asume la ruta de la carpeta
+// Ruta principal: Ahora responde directamente en la raíz del archivo
 app.get('/', async (req, res) => {
   try {
     const response = await fetch(`https://api.notion.com/v1/databases/${DATABASE_ID}/query`, {
@@ -44,18 +43,14 @@ app.get('/', async (req, res) => {
   }
 });
 
-// --- DAR LIKE ---
-// Cambiado de '/api/notes/like/:id' a '/like/:id'
+// Ruta para Likes
 app.get('/like/:id', async (req, res) => {
   try {
     const pageId = req.params.id;
-    
-    // 1. Obtener likes actuales
     const getRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, { headers });
     const pageData = await getRes.json();
     const currentLikes = pageData.properties['Like']?.number || 0;
 
-    // 2. Incrementar en Notion
     const updateRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
       method: 'PATCH',
       headers: headers,
@@ -64,18 +59,14 @@ app.get('/like/:id', async (req, res) => {
       })
     });
 
-    if (updateRes.ok) {
-      res.json({ success: true, newLikes: currentLikes + 1 });
-    } else {
-      throw new Error('Error al actualizar like');
-    }
+    if (updateRes.ok) res.json({ success: true, newLikes: currentLikes + 1 });
+    else throw new Error('Error al actualizar like');
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// --- CREAR NOTA ---
-// Cambiado de '/api/notes' a '/'
+// Ruta para Crear Nota
 app.post('/', async (req, res) => {
   try {
     const { asunto, text, color } = req.body;

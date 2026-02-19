@@ -117,11 +117,20 @@ function renderNote(note) {
 async function giveLike(id, btn) {
   btn.disabled = true;
   try {
-    const res = await fetch(`${API_URL}/like/${id}`);
-    const data = await res.json();
-    if (data.success) btn.querySelector('span').textContent = data.newLikes;
-  } finally {
-    btn.disabled = false;
+    const res = await fetch(`${API_URL}?id=${id}`, {
+      method: 'PATCH'
+    })
+
+    const data = await res.json()
+    if (data.success) {
+      btn.querySelector('span').textContent = data.newLikes
+    } else {
+      console.error("Error al dar like: ", data.error)
+    }
+  }catch (error){
+    console.error("Error de red:", error)
+  }finally {
+    btn.disabled = false
   }
 }
 
